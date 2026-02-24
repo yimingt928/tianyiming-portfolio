@@ -16,16 +16,16 @@ block: 'start'
 window.addEventListener('scroll', () => {
 const navbar = document.querySelector('.navbar');
 if (window.scrollY > 50) {
-navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
 } else {
-navbar.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+navbar.style.boxShadow = 'none';
 }
 });
 
 // 页面加载动画
 window.addEventListener('load', () => {
 document.body.style.opacity = '0';
-document.body.style.transition = 'opacity 0.5s ease';
+document.body.style.transition = 'opacity 0.6s ease';
 setTimeout(() => {
 document.body.style.opacity = '1';
 }, 100);
@@ -40,7 +40,7 @@ rootMargin: '0px 0px -50px 0px'
 const observer = new IntersectionObserver((entries) => {
 entries.forEach(entry => {
 if (entry.isIntersecting) {
-entry.target.classList.add('animate-fade-in');
+entry.target.classList.add('animate-in');
 observer.unobserve(entry.target);
 }
 });
@@ -51,25 +51,19 @@ document.querySelectorAll('section').forEach(section => {
 observer.observe(section);
 });
 
-// 观察时间线项目
-document.querySelectorAll('.timeline-item').forEach(item => {
-observer.observe(item);
-});
-
-// 观察项目卡片
-document.querySelectorAll('.project-card').forEach(card => {
+// 观察卡片
+document.querySelectorAll('.about-block, .sidebar-card, .project-card-mag, .timeline-item-mag, .education-card-mag, .award-card-mag, .contact-link-mag').forEach(card => {
 observer.observe(card);
 });
 
 // 导航链接高亮
 const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav-menu a');
+const navLinks = document.querySelectorAll('.nav-link');
 
 window.addEventListener('scroll', () => {
 let current = '';
 sections.forEach(section => {
 const sectionTop = section.offsetTop;
-const sectionHeight = section.clientHeight;
 if (scrollY >= sectionTop - 200) {
 current = section.getAttribute('id');
 }
@@ -78,19 +72,19 @@ current = section.getAttribute('id');
 navLinks.forEach(link => {
     link.style.color = '';
     if (link.getAttribute('href') === `#${current}`) {
-        link.style.color = '#2563eb';
+        link.style.color = '#e07b39';
     }
 });
 });
 
-// 添加页面加载完成后的样式
+// 添加初始动画样式
 document.addEventListener('DOMContentLoaded', () => {
-// 为所有卡片添加初始状态
-const cards = document.querySelectorAll('.highlight-card, .project-card, .education-card, .award-item, .contact-item');
-cards.forEach(card => {
-card.style.opacity = '0';
-card.style.transform = 'translateY(20px)';
-card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+const animatedElements = document.querySelectorAll('.about-block, .sidebar-card, .project-card-mag, .timeline-item-mag, .education-card-mag, .award-card-mag, .contact-link-mag');
+animatedElements.forEach((element, index) => {
+element.style.opacity = '0';
+element.style.transform = 'translateY(30px)';
+element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+element.style.transitionDelay = ${index * 0.05}s;
 });
 
 // 当元素进入视口时显示
@@ -104,4 +98,4 @@ const cardObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.1 });
 
-cards.forEach(card => cardObserver.observe(card));
+animatedElements.forEach(card => cardObserver.observe(card));
